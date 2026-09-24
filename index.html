@@ -215,6 +215,7 @@ footer strong{color:rgba(255,255,255,.88)}
       <a href="#sys">膜料系統</a>
       <a href="#ec">電商出貨</a>
       <a href="#inv">電商庫存</a>
+      <a href="#sync">庫存同步</a>
       <a href="#tax">雙月發票</a>
       <a href="#contact">窗口</a>
       <a href="#todo">待辦</a>
@@ -379,8 +380,64 @@ footer strong{color:rgba(255,255,255,.88)}
   </div>
 </section>
 
+<!-- B+. 兩套庫存同步 -->
+<section class="s" id="sync">
+  <div class="in">
+    <div class="eyebrow">Part B+ · 每天必做</div>
+    <h2>膜料庫存 ↔ 電商庫存<span class="accent"> 怎麼同步</span></h2>
+    <div class="sub">兩套系統沒有自動連動，任何一邊動了數字，另一邊都要自己再補一次。沒同步的下場：電商超賣（客人下單了但料早就用掉）或有料賣不出去。這章就是每天實際的做法。</div>
+
+    <div class="block-h"><span class="tag">S-1</span><h3>哪一邊先動？對照表</h3></div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <tr><th>發生什麼事</th><th>① 先改</th><th>② 再補</th></tr>
+        <tr><td><b>案場出料／切料</b></td><td>繪新管理系統 →【銷貨】扣庫（選捲料、填米數、關聯案件）</td><td>M2 把該型號<b>可售</b>下修成剩餘米數</td></tr>
+        <tr><td><b>進貨到料</b></td><td>繪新管理系統 →【登記到貨】（庫存自動增加）</td><td>M2 把該型號<b>可售</b>往上調</td></tr>
+        <tr><td><b>電商賣出一筆</b></td><td>M2 出貨後可售自動減</td><td>繪新管理系統 →【銷貨】扣掉同型號米數，用途寫「<b>電商訂單</b>」</td></tr>
+        <tr><td><b>新膜料要上電商</b></td><td>繪新管理系統【+新增膜料型號】，<b>務必填 EC 商品 Key</b></td><td>M2 商品上架建商品與規格</td></tr>
+      </table>
+    </div>
+    <div class="warn">
+      <span class="ti">對應依據＝型號</span>
+      <p>膜料<b>型號就是電商的 SKU</b>（例 <code>VS028</code>、<code>NS121</code>、<code>AT014</code>），管理系統那邊靠「EC 商品 Key」對應。品牌代碼：<b>B</b>＝BODAQ、<b>L</b>＝LG、<b>LX</b>＝LG/LX、<b>P</b>＝paroi。<b>3M 電商沒有賣，不用同步。</b></p>
+    </div>
+
+    <div class="block-h"><span class="tag">S-2</span><h3>每天：照「膜料使用記錄表」更新電商</h3></div>
+    <div class="path">紙本＝手寫「繪新國際 <b>膜料使用記錄表</b>」。後台路徑：<code>商品上架 → 商品庫存調整</code>（比一筆筆進明細快很多）</div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><h4>挑出要處理的列</h4><p>只處理「<b>電商</b>」欄<b>還沒打 ok</b> 的列。<span class="warnln">兩種一律跳過：① 3M 品牌（電商沒賣）② 紅筆寫的列（只看黑字／藍字）。</span></p></div></div>
+      <div class="step"><div class="n">2</div><div><h4>搜尋型號</h4><p>在「商品庫存調整」頁用<b>模糊搜尋</b>打入紙上的型號。搜完<b>等頁面真的跑完再看</b>，太早讀會看到上一筆的殘留結果，很容易改錯商品。</p>
+        <p>⚠️ 紙上的<b>紙箱型號常常是商品的別名</b>，跟 M2 的規格編號長得不一樣：例如 <code>DW636</code> ＝ 商品 <code>P64-LX-WG105</code>、<code>ES22</code> ＝ 商品 <code>P95-LX-SG006</code>。<span class="tip">模糊搜尋搜得到就是對的，別因為編號不同就以為搜錯。</span></p>
+        <p>手寫字也常看錯（<code>APZ25</code> 看成 <code>AP225</code>）。搜不到就改搜前幾碼，還是找不到就問 Tanya，別硬猜。</p></div></div>
+      <div class="step"><div class="n">3</div><div><h4>挑對規格 ⭐ 最容易出錯</h4><p>同一個型號常常有好幾個規格（1 米／50 米、防焰／不防焰，甚至好幾筆一模一樣的 1 米）。原則：挑「<b>目前可售數字最接近紙上『現有米數』</b>」的那個 <b>1 米</b>規格。</p>
+        <p><span class="warnln">如果有兩個以上 1 米、可售數字一樣分不出來（曾發生過三筆一樣的），停下來問 Tanya 要改哪一個規格 SN，不要亂猜。</span></p></div></div>
+      <div class="step"><div class="n">4</div><div><h4>填數字：只改「可售」</h4><p>把該規格的<b>可售</b>改成紙上的剩餘米數，<b>無條件捨去尾數</b>（15.9 → <code>15</code>、26.2 → <code>26</code>、24 → <code>24</code>）。</p>
+        <p><span class="warnln">「實際」欄不要動，只改可售。</span></p></div></div>
+      <div class="step"><div class="n">5</div><div><h4>按該列的【儲存】</h4><p>每一列各自儲存（一次只送那一個規格）。<span class="tip">存成功那列背景會變綠色，沒變綠就是沒存到，要重來。</span></p></div></div>
+      <div class="step"><div class="n">6</div><div><h4>回紙上打 ok</h4><p>改好的列，在紙本「電商」欄寫上 <b>ok</b>，下次就不會重複處理。跳過的（3M／紅筆）不用打。</p></div></div>
+    </div>
+
+    <div class="block-h"><span class="tag">S-3</span><h3>反方向：電商賣掉了，記得扣膜料系統</h3></div>
+    <div class="path">路徑：繪新管理系統 → 進銷存 → 膜料管理 → 該型號那列按 <code>銷貨</code></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><h4>選捲料</h4><p>挑實際出貨用掉的那一捲（注意店別，別選錯分店的捲）。</p></div></div>
+      <div class="step"><div class="n">2</div><div><h4>用途填「電商訂單」</h4><p>備註可以帶上電商<b>訂單編號</b>，日後對帳查得回來。</p></div></div>
+      <div class="step"><div class="n">3</div><div><h4>填使用米數 →【確認扣庫】</h4><p>米數＝這筆訂單出的公尺數。扣完管理系統的庫存才會跟電商一致。</p></div></div>
+    </div>
+
+    <div class="warn">
+      <span class="ti">同步排雷清單</span>
+      <p>① 只改一邊 ＝ 遲早超賣，養成「改完立刻補另一邊」的習慣。<br>
+      ② M2 只改<b>可售</b>、不動實際；管理系統則是走【銷貨】／【登記到貨】留紀錄，別直接硬改數字。<br>
+      ③ 米數一律<b>無條件捨去</b>，寧可少賣不要超賣。<br>
+      ④ 新型號上架沒填 <b>EC 商品 Key</b>，以後就對不起來，一定要補。<br>
+      ⑤ 管理系統「庫存偏低（&lt;10 米）」的型號，記得順手把電商可售也調低或下架。</p>
+    </div>
+  </div>
+</section>
+
 <!-- C. 雙月發票 -->
-<section class="s" id="tax">
+<section class="s alt" id="tax">
   <div class="in">
     <div class="eyebrow">Part C · 雙月一次</div>
     <h2>雙月定期作業 ·<span class="accent"> 發票</span></h2>
@@ -418,7 +475,7 @@ footer strong{color:rgba(255,255,255,.88)}
 </section>
 
 <!-- D. 窗口 -->
-<section class="s alt" id="contact">
+<section class="s" id="contact">
   <div class="in">
     <div class="eyebrow">Part D</div>
     <h2>對接<span class="accent">窗口</span>總表</h2>
@@ -437,16 +494,21 @@ footer strong{color:rgba(255,255,255,.88)}
 </section>
 
 <!-- E. 待辦 -->
-<section class="s" id="todo">
+<section class="s alt" id="todo">
   <div class="in">
     <div class="eyebrow">Part E</div>
     <h2>交接<span class="accent">待辦</span>與待填清單</h2>
-    <div class="sub">這些還需要 Tanya 補上、或交接期間要一起完成。</div>
+    <div class="sub">交接期間要補的資訊與要一起走過的實作，<b>已於 2026/09/24 全部完成</b>。留著紀錄，之後再有新的待辦就加在這裡。</div>
     <div class="check">
-      <div class="item"><div class="box"></div><div class="txt">各系統<b>密碼</b>怎麼安全交接<span class="desc">建議當面或用密碼管理工具，別寫在檔案裡</span></div></div>
-      <div class="item"><div class="box"></div><div class="txt">穩得 彭曉薇的<b>電話／LINE ID</b></div></div>
-      <div class="item"><div class="box"></div><div class="txt">其他膜料供應商、內部會計／業務窗口</div></div>
-      <div class="item"><div class="box"></div><div class="txt">跟接手同事一起實際走過：膜料銷貨／進貨、電商出貨各一次</div></div>
+      <div class="item"><div class="box" style="background:var(--green);border-color:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;line-height:1">✓</div><div class="txt">各系統<b>密碼</b>怎麼安全交接<span class="desc">已完成 — 當面交接／用密碼管理工具，沒有寫在檔案裡</span></div></div>
+      <div class="item"><div class="box" style="background:var(--green);border-color:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;line-height:1">✓</div><div class="txt">穩得 彭曉薇的<b>電話／LINE ID</b><span class="desc">已完成</span></div></div>
+      <div class="item"><div class="box" style="background:var(--green);border-color:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;line-height:1">✓</div><div class="txt">其他膜料供應商、內部會計／業務窗口<span class="desc">已完成</span></div></div>
+      <div class="item"><div class="box" style="background:var(--green);border-color:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;line-height:1">✓</div><div class="txt">跟接手同事一起實際走過：膜料銷貨／進貨、電商出貨各一次<span class="desc">已完成</span></div></div>
+    </div>
+    <div class="callout">
+      <span class="ti">Status</span>
+      <h3>交接待辦已全部完成 ✓</h3>
+      <p>接手同事已實際操作過膜料銷貨／進貨與電商出貨。剩下最後一關：<b>10–12 月期的發票字軌＋媒體申報</b>，落在待產期間，請照第 C 章自行執行，有疑問找電商小幫手。</p>
     </div>
   </div>
 </section>
